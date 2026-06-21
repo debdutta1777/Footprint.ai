@@ -24,10 +24,9 @@ import WeeklyGoalCard from '@/components/WeeklyGoalCard';
 import { CATEGORY_COLORS } from '@/constants';
 
 /* ──────────────────────────────────────────────
- * Sub-Components
+ * StatCard sub-component
  * ────────────────────────────────────────────── */
 
-/** A single stat card on the dashboard header. */
 interface StatCardProps {
   icon: string;
   value: string | number;
@@ -82,13 +81,13 @@ export default function Dashboard() {
     return getPersonalizedInsights(latestEntry.breakdown);
   }, [latestEntry]);
 
-  // Empty state — no calculation yet
+  // Empty state
   if (!latestEntry) {
     return (
-      <div className="page-container animate-in" style={{ textAlign: 'center', paddingTop: 'var(--space-16)' }}>
-        <div style={{ fontSize: '4rem', marginBottom: 'var(--space-6)' }} aria-hidden="true">📊</div>
-        <h1 style={{ fontSize: 'var(--font-size-2xl)', marginBottom: 'var(--space-4)' }}>No Data Yet</h1>
-        <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-6)' }}>
+      <div className="page-container animate-in empty-state">
+        <div className="empty-state-icon" aria-hidden="true">📊</div>
+        <h1 className="text-2xl mb-4">No Data Yet</h1>
+        <p className="text-secondary mb-6">
           Complete the carbon calculator to see your personalized dashboard.
         </p>
         <Link to="/calculator" className="btn btn-primary btn-lg">
@@ -108,11 +107,11 @@ export default function Dashboard() {
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-4" style={{ marginBottom: 'var(--space-8)' }}>
+      <div className="grid grid-4 mb-8">
         <StatCard icon="🌍" value={`${(latestEntry.totalKgCO2 / 1000).toFixed(1)}t`} label="Annual Footprint" color={rating.color} />
-        <StatCard icon="🔥" value={currentStreak} label="Day Streak" color="var(--color-accent)" />
-        <StatCard icon="✅" value={totalActionsCompleted} label="Actions Done" color="var(--color-secondary)" />
-        <StatCard icon="💚" value={formatCO2(totalCO2Saved)} label="CO₂ Saved" color="var(--color-primary)" />
+        <StatCard icon="🔥" value={currentStreak}          label="Day Streak"    color="var(--color-accent)" />
+        <StatCard icon="✅" value={totalActionsCompleted}  label="Actions Done"  color="var(--color-secondary)" />
+        <StatCard icon="💚" value={formatCO2(totalCO2Saved)} label="CO₂ Saved"  color="var(--color-primary)" />
       </div>
 
       {/* Weekly Goal */}
@@ -125,9 +124,7 @@ export default function Dashboard() {
       <div className="grid grid-2">
         {/* Pie Chart */}
         <div className="card" role="figure" aria-label="Carbon footprint breakdown by category" aria-describedby="pie-chart-desc">
-          <h2 style={{ fontWeight: 700, marginBottom: 'var(--space-4)', fontSize: 'var(--font-size-lg)' }}>
-            Carbon Breakdown
-          </h2>
+          <h2 className="section-heading">Carbon Breakdown</h2>
           <p id="pie-chart-desc" className="sr-only">
             Donut chart showing your annual carbon footprint divided into {pieData.length} categories:
             {pieData.map(d => ` ${d.name} at ${formatCO2(d.value)}`).join(',')}. Total: {formatCO2(latestEntry.totalKgCO2)}.
@@ -165,10 +162,10 @@ export default function Dashboard() {
           </table>
 
           {/* Visual legend */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', justifyContent: 'center' }}>
+          <div className="flex-center flex-wrap gap-3">
             {pieData.map(d => (
-              <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--font-size-sm)' }}>
-                <div style={{ width: 12, height: 12, borderRadius: 3, background: d.color }} aria-hidden="true" />
+              <div key={d.name} className="flex-start gap-2 text-sm">
+                <div className="legend-dot" style={{ background: d.color }} aria-hidden="true" />
                 <span>{d.name}: {formatCO2(d.value)}</span>
               </div>
             ))}
@@ -177,17 +174,15 @@ export default function Dashboard() {
 
         {/* Personalized Insights */}
         <div className="card">
-          <h2 style={{ fontWeight: 700, marginBottom: 'var(--space-4)', fontSize: 'var(--font-size-lg)' }}>
-            💡 Personalized Insights
-          </h2>
-          <ul role="list" aria-label="Personalized carbon reduction insights" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          <h2 className="section-heading">💡 Personalized Insights</h2>
+          <ul className="insight-list" aria-label="Personalized carbon reduction insights">
             {insights.map((insight) => (
-              <li key={insight} className="insight-card" role="listitem">
+              <li key={insight} className="insight-card">
                 {insight}
               </li>
             ))}
           </ul>
-          <Link to="/actions" className="btn btn-outline" style={{ marginTop: 'var(--space-4)', width: '100%' }}>
+          <Link to="/actions" className="btn btn-outline w-full mt-4">
             🌱 View Eco Actions
           </Link>
         </div>
@@ -195,10 +190,8 @@ export default function Dashboard() {
 
       {/* History Chart */}
       {historyData.length > 1 && (
-        <div className="card" style={{ marginTop: 'var(--space-6)' }}>
-          <h2 style={{ fontWeight: 700, marginBottom: 'var(--space-4)', fontSize: 'var(--font-size-lg)' }}>
-            📈 Footprint Over Time
-          </h2>
+        <div className="card mt-6">
+          <h2 className="section-heading">📈 Footprint Over Time</h2>
           <div className="chart-container">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={historyData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
@@ -214,11 +207,11 @@ export default function Dashboard() {
       )}
 
       {/* Export & Recalculate */}
-      <div style={{ textAlign: 'center', marginTop: 'var(--space-8)' }}>
-        <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-4)', fontSize: 'var(--font-size-sm)' }}>
+      <div className="text-center mt-8">
+        <p className="text-secondary text-sm mb-4">
           Last calculated: {formatDate(latestEntry.date)}
         </p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+        <div className="export-row">
           <Link to="/calculator" className="btn btn-secondary">🔄 Recalculate</Link>
           <button className="btn btn-outline" onClick={() => exportAsJSON(state)} aria-label="Export your carbon data as JSON">
             📥 Export JSON

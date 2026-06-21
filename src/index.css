@@ -983,3 +983,268 @@ button, input, select, textarea {
   margin-bottom: var(--space-4);
 }
 
+/* ══════════════════════════════════════════
+   Utility Classes — Layout
+   ══════════════════════════════════════════ */
+
+/** Flexbox helpers */
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-start {
+  display: flex;
+  align-items: center;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-1 { flex: 1; }
+.flex-shrink-0 { flex-shrink: 0; }
+.align-self-center { align-self: center; }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+/** Spacing helpers */
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mx-auto { margin: 0 auto; }
+.w-full { width: 100%; }
+.max-w-sm { max-width: 400px; }
+.max-w-md { max-width: 480px; }
+.text-center { text-align: center; }
+.no-list-style { list-style: none; padding: 0; margin: 0; }
+
+/* ══════════════════════════════════════════
+   Utility Classes — Typography
+   ══════════════════════════════════════════ */
+
+.text-xs   { font-size: var(--font-size-xs); }
+.text-sm   { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg   { font-size: var(--font-size-lg); }
+.text-xl   { font-size: var(--font-size-xl); }
+.text-2xl  { font-size: var(--font-size-2xl); }
+.text-3xl  { font-size: var(--font-size-3xl); }
+
+.font-600 { font-weight: 600; }
+.font-700 { font-weight: 700; }
+.font-800 { font-weight: 800; }
+
+.text-muted     { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-primary   { color: var(--color-primary); }
+.text-secondary-color { color: var(--color-secondary); }
+.text-accent    { color: var(--color-accent); }
+
+.whitespace-nowrap { white-space: nowrap; }
+.line-height-16 { line-height: 1.6; }
+
+/** Heading patterns */
+.section-heading {
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-4);
+}
+.page-title-gradient {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-2);
+}
+
+/* ══════════════════════════════════════════
+   Utility Classes — Components
+   ══════════════════════════════════════════ */
+
+/** Dashboard stat block */
+.stat-block-value {
+  font-weight: 700;
+  font-size: var(--font-size-xl);
+}
+.stat-block-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/** Legend dot (pie chart) */
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/** Insight list item */
+.insight-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/** Weekly goal progress */
+.goal-progress-bar {
+  height: 14px;
+  margin-bottom: var(--space-3);
+}
+.goal-progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+}
+
+/** Error boundary container */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+  text-align: center;
+}
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-6);
+}
+.error-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-3);
+}
+.error-message {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 480px;
+  line-height: 1.6;
+}
+.error-actions {
+  display: flex;
+  gap: 1rem;
+}
+.error-details {
+  margin-top: 2rem;
+  max-width: 600px;
+  text-align: left;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+/** Achievement progress summary */
+.achievement-summary {
+  text-align: center;
+  padding: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+.achievement-count {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+.achievement-progress-bar {
+  max-width: 400px;
+  margin: 0 auto;
+  height: 12px;
+}
+.achievement-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+}
+.achievement-stat-item {
+  text-align: center;
+}
+
+/** Calculator result ring container */
+.result-card {
+  text-align: center;
+  padding: var(--space-8);
+  margin-bottom: var(--space-6);
+}
+.comparison-row-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-1);
+  font-size: var(--font-size-sm);
+}
+.comparison-bar {
+  height: 12px;
+}
+
+/** Action card meta row */
+.action-meta-row {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+}
+
+/** Landing hero actions row */
+.hero-cta-row {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-8);
+}
+
+/** Dashboard export row */
+.export-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/** General empty state */
+.empty-state {
+  text-align: center;
+  padding-top: var(--space-16);
+}
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-6);
+}
+
+/** CTA Banner (Landing page) */
+.cta-banner {
+  text-align: center;
+  padding: var(--space-12);
+  background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(6,182,212,0.08));
+  border-color: rgba(34,197,94,0.2);
+}
+
+/** Extra spacing utilities */
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mb-2 { margin-bottom: var(--space-2); }
+.pb-6 { padding-bottom: var(--space-6); }
+.pt-8 { padding-top: var(--space-8); }
+
+/** Color utilities for stat values */
+.text-accent { color: var(--color-accent); }

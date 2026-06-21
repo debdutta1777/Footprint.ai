@@ -12,8 +12,8 @@ const Footer = memo(function Footer() {
       <p>
         © {new Date().getFullYear()} CarbonWise — Helping you reduce your carbon footprint, one step at a time.
       </p>
-      <p style={{ marginTop: '0.5rem', fontSize: '0.75rem' }}>
-        Emission factors based on DEFRA, EPA & IPCC data. For educational purposes.
+      <p className="text-xs mt-2">
+        Emission factors based on DEFRA, EPA &amp; IPCC data. For educational purposes.
       </p>
     </footer>
   );

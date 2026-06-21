@@ -119,9 +119,8 @@ export default function EcoAssistant() {
                 <p className="assistant-tip-text">{currentTip.message}</p>
                 {currentTip.actionId && (
                   <button
-                    className="btn btn-sm btn-primary"
+                    className="btn btn-sm btn-primary w-full mt-3"
                     onClick={() => handleActionClick(currentTip.actionId)}
-                    style={{ marginTop: 'var(--space-3)', width: '100%' }}
                   >
                     🌱 Go to this action
                   </button>

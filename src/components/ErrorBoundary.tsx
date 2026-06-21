@@ -26,7 +26,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // Log error for debugging (in production, send to error tracking service)
+    // In production, send to an error tracking service (e.g. Sentry)
     console.error('CarbonWise Error Boundary caught:', error, errorInfo);
   }
 
@@ -41,44 +41,22 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
       }
 
       return (
-        <div
-          role="alert"
-          aria-live="assertive"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '60vh',
-            padding: '2rem',
-            textAlign: 'center',
-          }}
-        >
-          <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }} aria-hidden="true">⚠️</div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
-            Something went wrong
-          </h1>
-          <p style={{
-            color: 'var(--color-text-secondary)',
-            marginBottom: '1.5rem',
-            maxWidth: '480px',
-            lineHeight: 1.6,
-          }}>
+        <div role="alert" aria-live="assertive" className="error-container">
+          <div className="error-icon" aria-hidden="true">⚠️</div>
+          <h1 className="error-title">Something went wrong</h1>
+          <p className="error-message">
             An unexpected error occurred. Your data is safe — it&apos;s stored locally on your device.
           </p>
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div className="error-actions">
             <button className="btn btn-primary" onClick={this.handleReset}>
               Try Again
             </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() => window.location.reload()}
-            >
+            <button className="btn btn-secondary" onClick={() => window.location.reload()}>
               Reload Page
             </button>
           </div>
           {this.state.error && (
-            <details style={{ marginTop: '2rem', maxWidth: '600px', textAlign: 'left', color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)' }}>
+            <details className="error-details">
               <summary style={{ cursor: 'pointer' }}>Technical Details</summary>
               <pre style={{ marginTop: '0.5rem', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
                 {this.state.error.message}

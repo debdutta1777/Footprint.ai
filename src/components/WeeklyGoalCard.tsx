@@ -38,18 +38,11 @@ const WeeklyGoalCard = memo(function WeeklyGoalCard({ goal, progress, onGoalChan
   }, [goal]);
 
   return (
-    <div
-      className="card"
-      style={{ marginBottom: 'var(--space-6)', padding: 'var(--space-6)' }}
-      role="region"
-      aria-label="Weekly CO₂ reduction goal"
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
-        <h2 style={{ fontWeight: 700, fontSize: 'var(--font-size-lg)' }}>
-          🎯 Weekly Goal
-        </h2>
+    <div className="card mb-6" role="region" aria-label="Weekly CO₂ reduction goal">
+      <div className="flex-between mb-4">
+        <h2 className="section-heading" style={{ marginBottom: 0 }}>🎯 Weekly Goal</h2>
         {editing ? (
-          <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
+          <div className="flex-start gap-2">
             <input
               type="number"
               min={WEEKLY_GOAL_MIN}
@@ -57,10 +50,10 @@ const WeeklyGoalCard = memo(function WeeklyGoalCard({ goal, progress, onGoalChan
               value={draftGoal}
               onChange={e => setDraftGoal(Number(e.target.value))}
               className="form-input"
-              style={{ width: 80, padding: 'var(--space-2)' }}
+              style={{ width: 80 }}
               aria-label="Weekly goal in kgCO₂e"
             />
-            <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>kgCO₂e</span>
+            <span className="text-sm text-secondary">kgCO₂e</span>
             <button className="btn btn-sm btn-primary" onClick={handleSave}>Set</button>
           </div>
         ) : (
@@ -71,13 +64,12 @@ const WeeklyGoalCard = memo(function WeeklyGoalCard({ goal, progress, onGoalChan
       </div>
 
       <div
-        className="progress-bar"
+        className="progress-bar goal-progress-bar"
         role="progressbar"
         aria-valuenow={Math.round(percentage)}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={`Weekly goal progress: ${Math.round(percentage)}%`}
-        style={{ height: 14, marginBottom: 'var(--space-3)' }}
       >
         <div
           className="progress-fill"
@@ -90,11 +82,14 @@ const WeeklyGoalCard = memo(function WeeklyGoalCard({ goal, progress, onGoalChan
         />
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-sm)' }}>
-        <span style={{ color: 'var(--color-text-secondary)' }}>
+      <div className="goal-progress-text">
+        <span className="text-secondary">
           {progress.toFixed(1)} / {goal} kgCO₂e saved this week
         </span>
-        <span style={{ fontWeight: 600, color: isGoalMet ? 'var(--color-primary)' : 'var(--color-accent)' }}>
+        <span
+          className="font-600"
+          style={{ color: isGoalMet ? 'var(--color-primary)' : 'var(--color-accent)' }}
+        >
           {isGoalMet ? '✅ Goal met!' : `${Math.round(percentage)}%`}
         </span>
       </div>

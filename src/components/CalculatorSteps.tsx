@@ -14,31 +14,26 @@ import { formatCO2 } from '../utils/formatters';
  * Prop Interfaces
  * ────────────────────────────────────────────── */
 
-/** Props for the Transport step form */
 export interface TransportStepProps {
   data: TransportData;
   onChange: (update: Partial<TransportData>) => void;
 }
 
-/** Props for the Energy step form */
 export interface EnergyStepProps {
   data: EnergyData;
   onChange: (update: Partial<EnergyData>) => void;
 }
 
-/** Props for the Food step form */
 export interface FoodStepProps {
   data: FoodData;
   onChange: (update: Partial<FoodData>) => void;
 }
 
-/** Props for the Shopping step form */
 export interface ShoppingStepProps {
   data: ShoppingData;
   onChange: (update: Partial<ShoppingData>) => void;
 }
 
-/** Props for the Results display */
 export interface ResultsStepProps {
   breakdown: CarbonBreakdown;
   total: number;
@@ -135,7 +130,7 @@ export const TransportStep = memo(function TransportStep({ data, onChange }: Tra
  * Energy Step
  * ────────────────────────────────────────────── */
 
-/** Step 2: Home energy inputs — electricity, gas, renewables. */
+/** Step 2: Home energy inputs. */
 export const EnergyStep = memo(function EnergyStep({ data, onChange }: EnergyStepProps) {
   return (
     <fieldset style={{ border: 'none' }}>
@@ -324,7 +319,7 @@ export const ShoppingStep = memo(function ShoppingStep({ data, onChange }: Shopp
  * Results Step
  * ────────────────────────────────────────────── */
 
-/** Category display entry for the results breakdown */
+/** Category entry for the results breakdown */
 interface BreakdownItem {
   label: string;
   value: number;
@@ -332,13 +327,13 @@ interface BreakdownItem {
   icon: string;
 }
 
-/** Step 5: Results display with breakdown, comparison, and rating. */
+/** Step 5: Results display with breakdown, rating, and world comparison. */
 export const ResultsStep = memo(function ResultsStep({ breakdown, total, rating }: ResultsStepProps) {
   const categories: BreakdownItem[] = [
     { label: 'Transport', value: breakdown.transport, color: 'var(--color-transport)', icon: '🚗' },
-    { label: 'Energy', value: breakdown.energy, color: 'var(--color-energy)', icon: '⚡' },
-    { label: 'Food', value: breakdown.food, color: 'var(--color-food)', icon: '🥗' },
-    { label: 'Shopping', value: breakdown.shopping, color: 'var(--color-shopping)', icon: '🛍️' },
+    { label: 'Energy',    value: breakdown.energy,    color: 'var(--color-energy)',    icon: '⚡' },
+    { label: 'Food',      value: breakdown.food,      color: 'var(--color-food)',      icon: '🥗' },
+    { label: 'Shopping',  value: breakdown.shopping,  color: 'var(--color-shopping)',  icon: '🛍️' },
   ];
 
   return (
@@ -347,15 +342,21 @@ export const ResultsStep = memo(function ResultsStep({ breakdown, total, rating 
       <p className="step-subtitle">Here's your estimated annual carbon footprint</p>
 
       {/* Total Ring */}
-      <div className="card" style={{ textAlign: 'center', padding: 'var(--space-8)', marginBottom: 'var(--space-6)' }}>
+      <div className="card result-card">
         <div className="result-ring">
-          <svg width="200" height="200" viewBox="0 0 200 200" role="img" aria-label={`Your footprint is ${formatCO2(total)}`}>
+          <svg
+            width="200" height="200" viewBox="0 0 200 200"
+            role="img"
+            aria-label={`Your footprint is ${formatCO2(total)}`}
+          >
             <circle cx="100" cy="100" r="85" fill="none" stroke="var(--color-surface)" strokeWidth="12" />
-            <circle cx="100" cy="100" r="85" fill="none"
+            <circle
+              cx="100" cy="100" r="85" fill="none"
               stroke={rating.color} strokeWidth="12" strokeLinecap="round"
               strokeDasharray={`${Math.min((total / 12000) * 534, 534)} 534`}
               transform="rotate(-90 100 100)"
-              style={{ transition: 'stroke-dasharray 1s ease' }} />
+              style={{ transition: 'stroke-dasharray 1s ease' }}
+            />
           </svg>
           <div className="result-ring-value" style={{ position: 'absolute' }}>
             <span className="value" style={{ color: rating.color }}>
@@ -365,27 +366,39 @@ export const ResultsStep = memo(function ResultsStep({ breakdown, total, rating 
           </div>
         </div>
 
-        <div className="badge" style={{ background: `${rating.color}20`, color: rating.color, fontSize: 'var(--font-size-base)', padding: 'var(--space-2) var(--space-4)', margin: '0 auto var(--space-4)' }}>
+        <div
+          className="badge"
+          style={{
+            background: `${rating.color}20`,
+            color: rating.color,
+            fontSize: 'var(--font-size-base)',
+            padding: 'var(--space-2) var(--space-4)',
+            margin: '0 auto var(--space-4)',
+          }}
+        >
           {rating.label}
         </div>
-        <p style={{ color: 'var(--color-text-secondary)', maxWidth: 400, margin: '0 auto' }}>{rating.description}</p>
+        <p className="text-secondary mb-4 max-w-sm mx-auto">{rating.description}</p>
       </div>
 
       {/* Breakdown Cards */}
-      <div className="grid grid-2" style={{ marginBottom: 'var(--space-6)' }}>
+      <div className="grid grid-2 mb-6">
         {categories.map(cat => (
-          <div key={cat.label} className="card" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
+          <div key={cat.label} className="card flex-start gap-4">
             <span style={{ fontSize: '2rem' }} aria-hidden="true">{cat.icon}</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 600, marginBottom: 'var(--space-1)' }}>{cat.label}</div>
+            <div className="flex-1">
+              <div className="font-600 mb-1">{cat.label}</div>
               <div className="progress-bar">
-                <div className="progress-fill" style={{
-                  width: `${total > 0 ? (cat.value / total) * 100 : 0}%`,
-                  background: cat.color,
-                }} />
+                <div
+                  className="progress-fill"
+                  style={{
+                    width: `${total > 0 ? (cat.value / total) * 100 : 0}%`,
+                    background: cat.color,
+                  }}
+                />
               </div>
             </div>
-            <div style={{ fontWeight: 700, color: cat.color, whiteSpace: 'nowrap' }}>
+            <div className="font-700 whitespace-nowrap" style={{ color: cat.color }}>
               {formatCO2(cat.value)}
             </div>
           </div>
@@ -399,7 +412,7 @@ export const ResultsStep = memo(function ResultsStep({ breakdown, total, rating 
 });
 
 /* ──────────────────────────────────────────────
- * Comparison Bar (sub-component)
+ * Comparison Bar
  * ────────────────────────────────────────────── */
 
 interface ComparisonBarProps {
@@ -407,17 +420,16 @@ interface ComparisonBarProps {
   ratingColor: string;
 }
 
-/** Comparison chart showing user footprint vs world average and Paris target. */
+/** Comparison chart: user vs world average vs Paris target. */
 const ComparisonBar = memo(function ComparisonBar({ total, ratingColor }: ComparisonBarProps) {
-  const maxScale = 12000;
-
+  const MAX_SCALE = 12000;
   return (
-    <div className="card" style={{ marginBottom: 'var(--space-6)' }}>
-      <h3 style={{ fontWeight: 600, marginBottom: 'var(--space-4)' }}>How You Compare</h3>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-        <ComparisonRow label="You" value={formatCO2(total)} percent={(total / maxScale) * 100} color={ratingColor} />
-        <ComparisonRow label="World Average" value="4.7t CO₂e" percent={(4700 / maxScale) * 100} color="var(--color-text-muted)" muted />
-        <ComparisonRow label="Paris Target" value="2.5t CO₂e" percent={(2500 / maxScale) * 100} color="var(--color-primary)" muted />
+    <div className="card mb-6">
+      <h3 className="font-600 mb-4">How You Compare</h3>
+      <div className="flex-col gap-3">
+        <ComparisonRow label="You" value={formatCO2(total)} percent={(total / MAX_SCALE) * 100} color={ratingColor} />
+        <ComparisonRow label="World Average" value="4.7t CO₂e" percent={(4700 / MAX_SCALE) * 100} color="var(--color-text-muted)" muted />
+        <ComparisonRow label="Paris Target" value="2.5t CO₂e" percent={(2500 / MAX_SCALE) * 100} color="var(--color-primary)" muted />
       </div>
     </div>
   );
@@ -434,17 +446,11 @@ interface ComparisonRowProps {
 const ComparisonRow = memo(function ComparisonRow({ label, value, percent, color, muted }: ComparisonRowProps) {
   return (
     <div>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: 'var(--space-1)',
-        fontSize: 'var(--font-size-sm)',
-        color: muted ? 'var(--color-text-secondary)' : undefined,
-      }}>
+      <div className={`comparison-row-label ${muted ? 'text-secondary' : ''}`}>
         <span>{label}</span>
-        <span style={{ fontWeight: muted ? 400 : 600 }}>{value}</span>
+        <span className={muted ? '' : 'font-600'}>{value}</span>
       </div>
-      <div className="progress-bar" style={{ height: 12 }}>
+      <div className="progress-bar comparison-bar">
         <div className="progress-fill" style={{ width: `${Math.min(percent, 100)}%`, background: color }} />
       </div>
     </div>
