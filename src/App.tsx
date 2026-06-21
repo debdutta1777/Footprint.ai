@@ -12,6 +12,7 @@ const Calculator = lazy(() => import('./pages/Calculator'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Actions = lazy(() => import('./pages/Actions'));
 const Achievements = lazy(() => import('./pages/Achievements'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 /** Loading fallback with accessible messaging */
 function PageLoader() {
@@ -54,6 +55,7 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/actions" element={<Actions />} />
             <Route path="/achievements" element={<Achievements />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

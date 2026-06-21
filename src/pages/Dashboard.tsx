@@ -158,10 +158,14 @@ export default function Dashboard() {
 
       <div className="grid grid-2">
         {/* Pie Chart */}
-        <div className="card" role="img" aria-label="Carbon footprint breakdown by category">
+        <div className="card" role="figure" aria-label="Carbon footprint breakdown by category" aria-describedby="pie-chart-desc">
           <h2 style={{ fontWeight: 700, marginBottom: 'var(--space-4)', fontSize: 'var(--font-size-lg)' }}>
             Carbon Breakdown
           </h2>
+          <p id="pie-chart-desc" className="sr-only">
+            Donut chart showing your annual carbon footprint divided into {pieData.length} categories:
+            {pieData.map(d => ` ${d.name} at ${formatCO2(d.value)}`).join(',')}. Total: {formatCO2(latestEntry.totalKgCO2)}.
+          </p>
           <div className="chart-container" style={{ height: 260 }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -178,11 +182,20 @@ export default function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          {/* Legend */}
+          {/* Accessible data table (hidden visually, available to screen readers) */}
+          <table className="sr-only" aria-label="Carbon breakdown data">
+            <thead><tr><th>Category</th><th>Emissions (kgCO₂e)</th></tr></thead>
+            <tbody>
+              {pieData.map(d => (
+                <tr key={d.name}><td>{d.name}</td><td>{d.value.toFixed(0)}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          {/* Visual Legend */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', justifyContent: 'center' }}>
             {pieData.map(d => (
               <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--font-size-sm)' }}>
-                <div style={{ width: 12, height: 12, borderRadius: 3, background: d.color }} />
+                <div style={{ width: 12, height: 12, borderRadius: 3, background: d.color }} aria-hidden="true" />
                 <span>{d.name}: {formatCO2(d.value)}</span>
               </div>
             ))}

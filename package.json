@@ -1,31 +1,42 @@
 {
-  "name": "carbon-footprint",
+  "name": "carbonwise",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "CarbonWise — Personal carbon footprint tracker with smart assistant, actionable eco-tips, and gamified achievements.",
+  "author": "CarbonWise Team",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/dompurify": "^3.0.5",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^6.0.2",
+    "eslint": "^10.5.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.6.0",
     "jsdom": "^29.1.1",
     "typescript": "~6.0.2",
+    "typescript-eslint": "^8.61.1",
     "vite": "^8.0.12",
     "vitest": "^4.1.9"
   },
   "dependencies": {
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.2",
     "dompurify": "^3.4.11",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
@@ -34,3 +45,4 @@
     "uuid": "^14.0.1"
   }
 }
+

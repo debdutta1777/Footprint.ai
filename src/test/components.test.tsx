@@ -183,3 +183,17 @@ describe('Error Boundary', () => {
     expect(screen.getByText('CarbonWise')).toBeInTheDocument();
   });
 });
+
+describe('NotFound Page', () => {
+  it('renders 404 for unknown routes', async () => {
+    renderApp('/some-nonexistent-page');
+    expect(await screen.findByText('Page Not Found')).toBeInTheDocument();
+  });
+
+  it('provides link back to home', async () => {
+    renderApp('/unknown');
+    const homeLink = await screen.findByText(/Back to Home/i);
+    expect(homeLink).toBeInTheDocument();
+    expect(homeLink.closest('a')).toHaveAttribute('href', '/');
+  });
+});
