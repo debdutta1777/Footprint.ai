@@ -7,6 +7,7 @@ import { createContext, useContext, useReducer, useEffect, useCallback, useMemo,
 import type { AppState, AppAction, EcoAction, Achievement } from '../types/carbon';
 import { DEFAULT_ECO_ACTIONS, DEFAULT_ACHIEVEMENTS } from '../data/ecoActions';
 import { getStorageItem, setStorageItem } from '../utils/storage';
+import { STORAGE_KEY, DEFAULT_WEEKLY_GOAL, WEEKLY_GOAL_MAX, WEEKLY_GOAL_MIN } from '../constants';
 
 /** Initial application state */
 const initialState: AppState = {
@@ -16,7 +17,7 @@ const initialState: AppState = {
   achievements: DEFAULT_ACHIEVEMENTS.map(a => ({ ...a, unlocked: false })),
   onboardingComplete: false,
   calculatorStep: 0,
-  weeklyGoalKgCO2: 10,
+  weeklyGoalKgCO2: DEFAULT_WEEKLY_GOAL,
 };
 
 /**
@@ -71,7 +72,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, calculatorStep: action.payload };
 
     case 'SET_WEEKLY_GOAL':
-      return { ...state, weeklyGoalKgCO2: Math.max(0, Math.min(action.payload, 200)) };
+      return { ...state, weeklyGoalKgCO2: Math.max(WEEKLY_GOAL_MIN, Math.min(action.payload, WEEKLY_GOAL_MAX)) };
 
     case 'COMPLETE_ONBOARDING':
       return { ...state, onboardingComplete: true };
@@ -103,8 +104,8 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | null>(null);
 
-/** Storage key for persisted state */
-const STORAGE_KEY = 'app_state';
+/** Storage key for persisted state — imported from constants */
+const APP_STORAGE_KEY = STORAGE_KEY;
 
 /**
  * AppProvider wraps the application with state context.
@@ -113,7 +114,7 @@ const STORAGE_KEY = 'app_state';
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState, (initial) => {
     // Load persisted state on initialization
-    const saved = getStorageItem<Partial<AppState>>(STORAGE_KEY, {});
+    const saved = getStorageItem<Partial<AppState>>(APP_STORAGE_KEY, {});
     if (saved && Object.keys(saved).length > 0) {
       return { ...initial, ...saved };
     }
@@ -124,7 +125,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const { calculatorStep, ...persistable } = state;
     void calculatorStep; // intentionally not persisted
-    setStorageItem(STORAGE_KEY, persistable);
+    setStorageItem(APP_STORAGE_KEY, persistable);
   }, [state]);
 
   // Calculate derived values

@@ -1,5 +1,12 @@
-/** Site footer with copyright and links. */
-export default function Footer() {
+/**
+ * Site footer with copyright and data source attribution.
+ * Memoized as it never needs to re-render from parent state changes.
+ */
+
+import { memo } from 'react';
+
+/** Site footer with copyright and attribution. */
+const Footer = memo(function Footer() {
   return (
     <footer className="footer" role="contentinfo">
       <p>
@@ -10,4 +17,6 @@ export default function Footer() {
       </p>
     </footer>
   );
-}
+});
+
+export default Footer;

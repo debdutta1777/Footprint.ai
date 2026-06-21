@@ -1,28 +1,50 @@
-import { useState } from 'react';
+/**
+ * Main navigation bar with responsive mobile menu.
+ *
+ * Features:
+ * - Responsive hamburger menu for mobile viewports
+ * - Active link highlighting via NavLink
+ * - ARIA roles: menubar, menuitem, expanded state
+ * - Memoized to prevent re-renders when parent state changes
+ */
+
+import { useState, useCallback, memo } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { ROUTES } from '../constants';
+
+/** Navigation link definition */
+interface NavItem {
+  to: string;
+  label: string;
+  icon: string;
+}
+
+/** Ordered navigation links */
+const NAV_LINKS: NavItem[] = [
+  { to: ROUTES.HOME, label: 'Home', icon: '🏠' },
+  { to: ROUTES.CALCULATOR, label: 'Calculator', icon: '🧮' },
+  { to: ROUTES.DASHBOARD, label: 'Dashboard', icon: '📊' },
+  { to: ROUTES.ACTIONS, label: 'Eco Actions', icon: '🌱' },
+  { to: ROUTES.ACHIEVEMENTS, label: 'Achievements', icon: '🏆' },
+];
 
 /** Main navigation bar with responsive mobile menu. */
-export default function Navbar() {
+const Navbar = memo(function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const links = [
-    { to: '/', label: 'Home', icon: '🏠' },
-    { to: '/calculator', label: 'Calculator', icon: '🧮' },
-    { to: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { to: '/actions', label: 'Eco Actions', icon: '🌱' },
-    { to: '/achievements', label: 'Achievements', icon: '🏆' },
-  ];
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const toggleMenu = useCallback(() => setMenuOpen(prev => !prev), []);
 
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
       <div className="navbar-inner">
-        <Link to="/" className="navbar-brand" aria-label="CarbonWise Home">
+        <Link to={ROUTES.HOME} className="navbar-brand" aria-label="CarbonWise Home">
           🌍 <span>CarbonWise</span>
         </Link>
 
         <button
           className="navbar-toggle"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={toggleMenu}
           aria-expanded={menuOpen}
           aria-controls="nav-menu"
           aria-label="Toggle navigation menu"
@@ -35,16 +57,16 @@ export default function Navbar() {
           className={`navbar-links ${menuOpen ? 'open' : ''}`}
           role="menubar"
         >
-          {links.map(link => (
+          {NAV_LINKS.map(link => (
             <li key={link.to} role="none">
               <NavLink
                 to={link.to}
-                end={link.to === '/'}
+                end={link.to === ROUTES.HOME}
                 className={({ isActive }) =>
                   `navbar-link ${isActive ? 'active' : ''}`
                 }
                 role="menuitem"
-                onClick={() => setMenuOpen(false)}
+                onClick={closeMenu}
               >
                 <span aria-hidden="true">{link.icon}</span>
                 {link.label}
@@ -55,4 +77,6 @@ export default function Navbar() {
       </div>
     </nav>
   );
-}
+});
+
+export default Navbar;
